@@ -155,7 +155,7 @@ function getAnim(number, autoplay_value){
 	target.appendChild(container)
 
 
-	d3.csv('../assets/onboarding/data/text.csv')
+	d3.csv('https://raw.githubusercontent.com/3milychu/notesonperspective_journal/master/assets/onboarding/data/text.csv')
 		.then(function(data){
 			console.log(data);
 			filter = data.filter(function(d){return d.scene == number})
