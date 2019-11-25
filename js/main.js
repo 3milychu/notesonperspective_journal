@@ -33,7 +33,7 @@ d3.csv('data/cluster_results.csv')
 	.catch(function(error){
 	})
 function loadReactions() {
-	d3.json('https://raw.githubusercontent.com/3milychu/music-vis/master/data/moment_all2.json')
+	d3.json('data/new_moment_all.json')
 	.then(function(data){
 		console.log(data);
 		getReactions(data);
@@ -84,7 +84,7 @@ function getAllSignatures() {
 				}
 			},0)
 		
-		d3.json('https://raw.githubusercontent.com/3milychu/music-vis/master/data/moment_all2.json')
+		d3.json('data/new_moment_all.json')
 		.then(function(data){
 			svg_x.registerListener(function(val) {
 				for(i=0;i<data.length;i++){
@@ -390,7 +390,7 @@ function getView(view){
 		view_container.style.backgroundColor="transparent";
 		if(start_message!=null){
 			for(i=0;i<labels.length;i++){
-				labels[i].style.color="#F2F2F2";
+				labels[i].style.color="#666666";
 			}
 		}
 	}
@@ -984,7 +984,7 @@ function spatial() {
 			getpos();
 			role= this.id;
 			// get bio info
-			d3.csv('data/bio.csv')
+			d3.csv('data/new_bio.csv')
 				.then (function(data){
 					getProfileData(data, role)
 				})

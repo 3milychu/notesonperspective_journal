@@ -417,6 +417,7 @@ audio:focus {
 
 /*Perspective Filter*/
 #perspective-filter {
+	text-align:center;
 	z-index:100;
 	padding:0.5% 1%;
 	font-size:0.7em;
