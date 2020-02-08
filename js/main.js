@@ -586,7 +586,7 @@ function createComment(data, id, role){
 	div.setAttribute("class","item")
 	div.setAttribute('id',id);
 	h3 = document.createElement('h3');
-	h3.innerHTML=role;
+	h3.innerHTML=data['role2'];
 	p = document.createElement('p');
 	p.innerHTML="'"+comment+"'";
 	label = document.createElement('label');
@@ -840,25 +840,46 @@ function showSigPpl() {
 			if(text=="person11" || text=="person12" || text=="person13" || text=="person14"){
 				
 				if(text=="person11"){
-					text= "Performing pianist";
+					text= "B Performing pianist";
 				}
 				if(text=="person12"){
-					text= "Performing cellist";
+					text= "A Performing cellist";
 				}
 				if(text=="person13"){
-					text= "Non-performing pianist";
+					text= "Prepared pianist";
 				}
 				if(text=="person14"){
-					text="Non-performing cellist";
+					text="Prepared cellist";
 				}
 			} else {
 				test = Number.isInteger(parseInt(text.slice(-2)));
 				if(test==true){
 					ending = parseInt(text.slice(-2));
-					text = "Class member "+ ending;
+					if(ending==10){
+						text ='E String listener, played it'
+					}
+
 				} else if (test==false) {
 					ending = parseInt(text.slice(-1));
-					text = "Class member "+ ending;
+					if(ending==1){
+						text ='G String listener, unfamiliar'
+					}else if (ending==2){
+						text ='H String listener, unfamiliar'
+					}else if(ending==3){
+						text ='F String listener, heard it'
+					}else if (ending==4){
+						text ='I Pianist listener, played it'
+					}else if (ending==5){
+						text ='J Pianist listener, played item'
+					}else if (ending==6){
+						text ='K Pianist listener, played it'
+					}else if (ending==7){
+						text ='N Pianist listener, unfamiliar'
+					}else if (ending==8){
+						text ='L Pianist listener, played it'
+					}else if (ending==9){
+						text ='M Pianist listener, heard it'
+					}
 				}
 				
 			}
@@ -1218,11 +1239,15 @@ function endorsementsDetail(data) {
 // each reaction's category by sentiment
 function displayTags(data, comment_id){
 	tags = []
-	categories=['dynamics', 'dyn_bal', 'balance', 'tempo', 'timing', 'character','rhythmic_motion', 'synchronization', 'communication', 'matching_musical_idea', 'expressivity', 'tone_quality', 'ending'];
+	categories=['DYNAMICS', 'BALANCE (NEW)', 'TEMPO', 'TIMING/RHYTHMIC MOTION', 'SYNCHRONIZATION', 'COMMUNICATION', 'EXPRESSIVITY', 'TONE QUALITY', 'OTHER'];
 	for(i=0;i<categories.length;i++){
 		category = categories[i];
 		if(data[category]!=undefined && data[category]!= ""){
+			if(category=='BALANCE (NEW)'){
+				category=='BALANCE'
+			}
 			category2 = category.replace(/_/g, " ")
+			category2 = category2.toLowerCase();
 			tags.push({
 				tag: category2,
 				sentiment:data[category]
