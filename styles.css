@@ -572,11 +572,11 @@ input {
 	background:linear-gradient(#FCC388, #5D5C73);
 }
 #start-message h1 {
-	font-size:8em;
+	font-size:5em;
 	width:50%;
 	text-align:left;
 	letter-spacing:-0.09em;
-	margin-top:-10%;
+	margin-top:-20%;
 	color:white;
 	font-weight:900;
 	line-height:0.7em;
@@ -592,7 +592,7 @@ input {
     font-size: 0.7em;
 	position:absolute;
     background-color:transparent;
-    bottom:18%;
+    bottom:28%;
     padding:1% 2.5%;
 }
 #reactions2 h2, #reactions3 h2 {
@@ -1128,7 +1128,7 @@ svg {
 	 box-shadow:none;
 	}
 	#start-message h1 {
-		font-size:3em;
+		font-size:2em;
 	}
 	#start-message p {
 		display:none;

@@ -964,14 +964,14 @@ function getDetails(data, target, pic, role){
 	random = "summary" + random;
 	profile_pic = "<div class='profile-pic "+ pic + "'></div>"
 	target.innerHTML+= "<div class=top>" + profile_pic + "<h2>"+ data[0]['role2'] + "</h2></div>"
-	target.innerHTML+="<h2>Random Thought</h2><p>"+ data[0][random] + "</p>"
+	target.innerHTML+="<h2>Example General Comment</h2><p>"+ data[0][random] + "</p>"
 	target.innerHTML+="<h2>Familiarity with Piece</h2>"
-	if(data[0]['played']!="no" || data[0]['heard']!="no"){
-		if(data[0]['played']!="no"){
+	if(data[0]['played']!="No" || data[0]['heard']!="No"){
+		if(data[0]['played']!="No"){
 			text = data[0]['played'].split("Yes, ");
 			target.innerHTML+="<p>"+text[1]+"</p>"
 		}
-		if(data[0]['heard']!="no"){
+		if(data[0]['heard']!="No"){
 			text2 = data[0]['heard'].split("Yes, ");
 			target.innerHTML+="<p>"+text2[1]+"</p>"
 		}
