@@ -1078,10 +1078,15 @@ circle {
 }
 .curve {
 	transform-origin: 50% 50%;
-	stroke-width:8;
+	stroke-width:3;
 	fill:none;
 	stroke-linecap:round;
+	transition:0.25s ease-in-out;
+	box-shadow:0em 0em 0.5em white;
 /*	animation:lineFadeIn 1s ease-in-out;*/
+}
+.curve:hover {
+	stroke-width:10;
 }
 @keyframes sigFadeIn {
 	0% {

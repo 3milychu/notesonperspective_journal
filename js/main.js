@@ -464,6 +464,7 @@ function updateData(data){
 		console.log(data1, data2, data3)
 		data4 = data1.concat(data2);
 		data = data3.concat(data4);
+		data = data.reverse();
 	}
 	return data;
 }
@@ -713,9 +714,11 @@ function drawPath(point1_id, point2_id, sig_class, comment) {
             this_h=el.clientHeight;
    			c1x =this_h/2;
     		c1y=this_h/2;
+    		offset = Math.floor(Math.random()*100)+(0)
+    		offset *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
            // const rc = rough.svg(svg);
             // construct the command to draw a quadratic curve
-            var curve = "M" + p1x + " " + p1y + " Q " + c1x + " " + c1y + " " + p2x + " " + p2y;
+            var curve = "M" + p1x + " " + p1y + " Q " + (c1x+offset) + " " + (c1y+offset) + " " + p2x + " " + p2y;
    			// curve = rc.path("M" + p1x + " " + p1y + " Q " + c1x + " " + c1y + " " + p2x + " " + p2y, {
 			//   stroke: 'inherit', strokeWidth: 5
 			// });
