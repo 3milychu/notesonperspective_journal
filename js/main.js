@@ -1131,24 +1131,24 @@ function displayEndorsement(data, comment_id){
 	rater1 = parseInt(data['rater1_reassigned']);
 	if(rater1<3){
 		results.push({
-			rater: data['rater1'],
+			rater: data['rater1newrole'],
 			judgement:"disagree"
 		});
 	} else {
 		results.push({
-			rater: data['rater1'],
+			rater: data['rater1newrole'],
 			judgement:"agree"
 		});
 	}
 	rater2 = data['rater2_reassigned'];
 	if(rater2<3){
 		results.push({
-			rater: data['rater2'],
+			rater: data['rater2newrole'],
 			judgement:"disagree"
 		});
 	} else {
 		results.push({
-			rater: data['rater2'],
+			rater: data['rater2newrole'],
 			judgement:"agree"
 		});
 	}
