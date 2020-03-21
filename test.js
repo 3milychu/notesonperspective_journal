@@ -33,9 +33,9 @@ d3.csv('data/cluster_results.csv')
 	.catch(function(error){
 	})
 function loadReactions() {
-	d3.json('data/new_moment_all.json')
+	d3.json('data/new_moment_all2.json')
 	.then(function(data){
-		console.log(data)
+		console.log(data);
 		getReactions(data);
 		endorsementsDetail(data);
 	})
@@ -91,7 +91,7 @@ function getAllSignatures() {
 					info = data[i];
 					role = info['role']
 						console.log("changed")
-					  getSignature(info, role, 1)
+					   getSignature(info, role, 1)
 				}
 			});
 		})
@@ -409,7 +409,7 @@ function getReactions(data){
 	// adjust playback rate
 	setExperienceOptions(add);
 	// change svg
-	// justListening(add.length)
+	justListening(add.length)
 }
 
 function justListening(length){
@@ -480,9 +480,9 @@ function addComments(add) {
 			role = info['role'];
 			test = document.getElementById(id);
 			if(test==null || test==undefined){
-				if(id=="MOM2CHAR.00"){
+				if(id=='MOM1CHAR.00'){
 					createComment(info,id,role)
-				}else {
+				} else {
 					createComment(info,id,role)
 					displayEndorsement(info, id);
 					displayTags(info, id);
@@ -590,10 +590,10 @@ function createComment(data, id, role){
 	div = document.createElement('div');
 	div.setAttribute("class","item")
 	div.setAttribute('id',id);
-	if(id=="MOM2CHAR.00"){
-		div.classList.add('dummy')
-		console.log('create dummy')
-	}else {
+	if(id=="MOM1CHAR.00"){
+		div.classList.add("dummy")
+		console.log(div)
+	} else {
 		h3 = document.createElement('h3');
 		h3.innerHTML=data['role2'];
 		p = document.createElement('p');
@@ -710,7 +710,7 @@ function drawCircles(num_circles){
         })
 }
 // draw shared network for signature view
-function drawPath(point1_id, point2_id, sig_class, comment, offset=0) {
+function drawPath(point1_id, point2_id, sig_class, comment) {
             var p1x = parseFloat(document.getElementById(point1_id).getAttribute("cx"));
             var p1y = parseFloat(document.getElementById(point1_id).getAttribute("cy"));
             var p2x = parseFloat(document.getElementById(point2_id).getAttribute("cx"));
@@ -723,14 +723,11 @@ function drawPath(point1_id, point2_id, sig_class, comment, offset=0) {
             this_h=el.clientHeight;
    			c1x =this_h/2;
     		c1y=this_h/2;
-    		stagger=0;
-    		if(offset!=0){
-    			stagger= Math.floor(Math.random()*100)+(0)
-    			stagger *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-    		}
+    		offset = Math.floor(Math.random()*100)+(0)
+    		offset *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
            // const rc = rough.svg(svg);
             // construct the command to draw a quadratic curve
-            var curve = "M" + p1x + " " + p1y + " Q " + (c1x+stagger) + " " + (c1y+stagger) + " " + p2x + " " + p2y;
+            var curve = "M" + p1x + " " + p1y + " Q " + (c1x+offset) + " " + (c1y+offset) + " " + p2x + " " + p2y;
    			// curve = rc.path("M" + p1x + " " + p1y + " Q " + c1x + " " + c1y + " " + p2x + " " + p2y, {
 			//   stroke: 'inherit', strokeWidth: 5
 			// });

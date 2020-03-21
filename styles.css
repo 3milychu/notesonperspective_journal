@@ -9,6 +9,9 @@ body, html {
 	position:relative;
 	animation:1s fadeIn ease-in-out;
 }
+.dummy {
+	opacity:0;
+}
 i{
 	font-style:italic;
 }
