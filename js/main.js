@@ -403,6 +403,8 @@ function getReactions(data){
 	add= data.filter(function(d){
 	return ((parseInt(d.MOM_STARTBAR+d.MOM_STARTBEAT) <= ref.value) && (parseInt(d.MOM_ENDBAR+d.MOM_ENDBEAT) >= ref.value));
 	 })
+	console.log(add)
+	console.log(ref.value)
 	// add stuff
 	d3.selectAll('.curve').remove();
 	addComments(add);
@@ -464,7 +466,7 @@ function updateData(data){
 		console.log(data1, data2, data3)
 		data4 = data1.concat(data2);
 		data = data3.concat(data4);
-		data = data.reverse();
+		// data = data.reverse();
 	}
 	return data;
 }
@@ -591,8 +593,8 @@ function createComment(data, id, role){
 	div.setAttribute("class","item")
 	div.setAttribute('id',id);
 	if(id=="MOM2CHAR.00"){
-		div.classList.add('dummy')
 		console.log('create dummy')
+		div.classList.add('dummy')
 	}else {
 		h3 = document.createElement('h3');
 		h3.innerHTML=data['role2'];
@@ -602,7 +604,7 @@ function createComment(data, id, role){
 		div.appendChild(h3);
 		div.appendChild(p);
 	}
-	reactions.prepend(div);
+	reactions.append(div);
 }
 function getpos(event) {
 	var e = window.event;
