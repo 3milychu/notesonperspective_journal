@@ -33,7 +33,7 @@ d3.csv('data/cluster_results.csv')
 	.catch(function(error){
 	})
 function loadReactions() {
-	d3.json('data/new_moment_all.json')
+	d3.json('data/new_moment_all2.json')
 	.then(function(data){
 		console.log(data)
 		getReactions(data);
@@ -1187,14 +1187,14 @@ function endorsementsDetail(data) {
 			comment_id = this.getAttribute("name");
 			index = data.findIndex(obj => obj.comment_id==comment_id);
 			if(parseInt(data[index]['rater1_reassigned'])<3){
-				disagree.push(data[index]['rater1'])
+				disagree.push(data[index]['rater1newrole'])
 			} else {
-				agree.push(data[index]['rater1'])
+				agree.push(data[index]['rater1newrole'])
 			}
 			if(parseInt(data[index]['rater2_reassigned'])<3){
-				disagree.push(data[index]['rater2'])
+				disagree.push(data[index]['rater2newrole'])
 			} else {
-				agree.push(data[index]['rater2'])
+				agree.push(data[index]['rater2newrole'])
 			}
 			displayEndorsement();
 			function displayEndorsement() {
@@ -1224,14 +1224,14 @@ function endorsementsDetail(data) {
 		comment_id = this.getAttribute("name");
 		index = data.findIndex(obj => obj.comment_id==comment_id);
 		if(parseInt(data[index]['rater1_reassigned'])<3){
-			disagree.push(data[index]['rater1'])
+			disagree.push(data[index]['rater1newrole'])
 		} else {
-			agree.push(data[index]['rater1'])
+			agree.push(data[index]['rater1newrole'])
 		}
 		if(parseInt(data[index]['rater2_reassigned'])<3){
-			disagree.push(data[index]['rater2'])
+			disagree.push(data[index]['rater2newrole'])
 		} else {
-			agree.push(data[index]['rater2'])
+			agree.push(data[index]['rater2newrole'])
 		}
 		displayEndorsement();
 		function displayEndorsement() {
