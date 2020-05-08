@@ -481,10 +481,10 @@ function addComments(add) {
 			console.log(comment);
 			role = info['role'];
 			test = document.getElementById(id);
-			if(test==null || test==undefined){
-				if(id=="MOM2CHAR.00"){
-					createComment(info,id,role)
-				}else {
+			if(id=="MOM2CHAR.00"){
+				createComment(info,id,role)
+			}else {
+				if(test==null || test==undefined){
 					createComment(info,id,role)
 					displayEndorsement(info, id);
 					displayTags(info, id);
