@@ -403,6 +403,9 @@ function getReactions(data){
 	add= data.filter(function(d){
 	return ((parseInt(d.MOM_STARTBAR+d.MOM_STARTBEAT) <= ref.value) && (parseInt(d.MOM_ENDBAR+d.MOM_ENDBEAT) >= ref.value));
 	 })
+	add = add.sort(function(x, y){
+		   return d3.ascending(x.DESIRED_POS, y.DESIRED_POS);
+		})
 	console.log(add)
 	console.log(ref.value)
 	// add stuff
