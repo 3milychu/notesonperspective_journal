@@ -1350,7 +1350,7 @@ d3.csv('data/cluster_results.csv')
 		cluster.setAttribute("class", "label"+label + " clusterlabel")
 		div.appendChild(img);
 		div.appendChild(overlay);
-		// div.appendChild(cluster);
+		div.appendChild(cluster);
 		target.appendChild(div);
 		}
 	goToAnalysis();
