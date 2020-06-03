@@ -1267,6 +1267,7 @@ function displayTags(data, comment_id){
 				category=='BALANCE'
 			}
 			category2 = category.replace(/_/g, " ")
+			category2 = category.replace(" (NEW)", " ")
 			category2 = category2.toLowerCase();
 			tags.push({
 				tag: category2,
