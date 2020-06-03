@@ -16,7 +16,7 @@ i{
 	font-style:italic;
 }
 .fine_print {
-	font-size:0.5em;
+	font-size:0.8em;
 }
 .small_caps{
 	font-variant: small-caps;
@@ -917,6 +917,10 @@ div[value=neg]{
 
 
 /*spatial*/
+#spatial {
+	display: none; 
+}
+
 #hall {
 	width:100%;
 	margin:auto;
@@ -1051,6 +1055,10 @@ div[value=neg]{
 	margin:5%;
 }
 /*signature*/
+
+#signature {
+	display: none;
+}
 
 #canvas{
 	position:relative;

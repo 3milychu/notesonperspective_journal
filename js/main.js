@@ -1267,6 +1267,7 @@ function displayTags(data, comment_id){
 				category=='BALANCE'
 			}
 			category2 = category.replace(/_/g, " ")
+			category2 = category.replace(" (NEW)", " ")
 			category2 = category2.toLowerCase();
 			tags.push({
 				tag: category2,
@@ -1349,7 +1350,7 @@ d3.csv('data/cluster_results.csv')
 		cluster.setAttribute("class", "label"+label + " clusterlabel")
 		div.appendChild(img);
 		div.appendChild(overlay);
-		div.appendChild(cluster);
+		// div.appendChild(cluster);
 		target.appendChild(div);
 		}
 	goToAnalysis();
