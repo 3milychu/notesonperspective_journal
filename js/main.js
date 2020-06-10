@@ -10,10 +10,11 @@ var watch = "same";
 var time_option;
 var zoom_option;
 var card_pos = "down";
-var people_status = [{performer: "both", audience: "all", backup: "both"}];
+var people_status = [{everyone: 'all', performer: "both", audience: "all", endorsements: "both"}];
+var everyone = people_status[0]['everyone']
 var performer = people_status[0]['performer'];
 var audience = people_status[0]['audience'];
-var backup = people_status[0]['backup'];
+var endorsements = people_status[0]['endorsements'];
 //mobile view
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
     page=document.querySelectorAll('.page');
@@ -328,7 +329,7 @@ function getPeopleStatus() {
 			if(this.style.backgroundColor == "rgb(216, 166, 147)"){
 				this.style.backgroundColor="transparent";
 				this.style.color="black";
-				people_status[0][type]="none";
+				// people_status[0][type]="none";
 			} else {
 				for(i=0;i<type_family.length;i++){
 					type_family[i].style.backgroundColor="";
@@ -337,25 +338,45 @@ function getPeopleStatus() {
 					this.style.color="white";
 				}
 			}
+			if(type=='everyone' && name != 'all'){
+				var index;
+				people_status[0]['performer']=name;
+				type_family2 = document.querySelectorAll('#performer')
+				type_family2.forEach(function(item){
+					item.style.backgroundColor=''
+					item.style.color='black'
+				})
+				if(name == 'pianist'){
+					index = 2
+				}else {
+					index=1
+				}
+				target = document.querySelectorAll('#performer')[index]
+				console.log(target)
+				target.style.backgroundColor="rgb(216, 166, 147)"
+				target.style.color="white"
+			}
 			getPeopleStyles();
 			console.log(people_status)
 		}
 	}
 }
 function getPeopleStyles() {
-	all_selection = document.querySelector('#all')
+	all_selection = document.querySelector('[value=all]')
+	console.log(all_selection)
+	everyone = people_status[0]['everyone'];
 	performer = people_status[0]['performer'];
 	audience = people_status[0]['audience'];
-	backup = people_status[0]['backup'];
-	console.log(performer, audience, backup)
-	if(performer == "both" && audience == "all" && backup == "both"){
+	endorsements = people_status[0]['endorsements'];
+	console.log(everyone, performer, audience, endorsements)
+	if(everyone == "all" && performer == "both" && audience == "all" && endorsements =="both"){
 		console.log('everyone')
-		all_selection.style.backgroundColor = "#D8A693";
-		all.style.color = "white"
+		all_selection.style.backgroundColor = "rgb(216, 166, 147)";
+		all_selection.style.color = "white"
 	} else {
 		console.log('not everyone')
 		all_selection.style.backgroundColor = "white";
-		all.style.color = "black";
+		all_selection.style.color = "black";
 	}
 }
 // get dataset view: 0= comments; 2=spatial, 3=signature
@@ -429,48 +450,67 @@ function justListening(length){
 }
 
 function updateData(data){
-	all = document.querySelector('#all');
+	all = document.querySelector('[value=all]');
+	console.log(all)
 	test = all.style.backgroundColor;
-	if(test == "#D8A693"){
+	if(test == "rgb(216, 166, 147)"){
 		data = data;
 	} else {
+		if(everyone == 'string'){
+			data1 = data.filter(function(d){ return d.role2.match(/string/i) || d.role2.match(/cellist/,"i") 
+			})
+		}
+		if (everyone == 'pianist'){
+			data1 = data.filter(function(d){ return d.role2.match(/pianist/i) || d.role2.match(/piano/,"i")
+			})
+		}
 		if(performer != "both" && performer!= "none"){
-			data1 = data.filter(function(d){return d.role == "Performing " + performer})
+			data2 = data1.filter(function(d){return d.role == "Performing " + performer})
 		}
 		if(performer == "none"){
-			data1 = [];
-		}
-		if(performer == "both"){
-			data1 = data.filter(function(d){return d.role == "Performing pianist" || d.role == "Performing cellist"})
-		}
-		if(audience == "all"){
-			data2 = data.filter(function(d){return d.role.match(/Class member/)})
-		}
-		if(audience == "none"){
 			data2 = [];
 		}
-		if(audience == "heard"){
-			data2 = data.filter(function(d){return d.role.match(/Class member/)})
-			data2 = data2.filter(function(d){return d.heard == "yes"})
+		if(performer == "both"){
+			data2 = data1.filter(function(d){return d.role == "Performing pianist" || d.role == "Performing cellist"})
 		}
-		if(audience == "played"){
-			data2 = data.filter(function(d){return d.role.match(/Class member/)})
-			data2 = data2.filter(function(d){return d.played == "yes"})
+		if(audience == "all"){
+			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
 		}
-		if(backup != "both" && backup != "none"){
-			data3 = data.filter(function(d){return d.role== "Non-performing "+ backup})
+		if(audience == "prepared"){
+			data3 = data1.filter(function(d){return d.role2.match(/Prepared/)})
 		}
-		if(backup =="none"){
+		if(audience == "none"){
 			data3 = [];
 		}
-		if(backup == "both"){
-			data3 = data.filter(function(d){return d.role == "Non-performing pianist" || d.role == "Non-performing cellist"})
+		if(audience == "heard"){
+			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
+			data3 = data3.filter(function(d){return d.heard == "yes"})
+		}
+		if(audience == "played"){
+			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
+			data3 = data3.filter(function(d){return d.played == "yes"})
+		}
+		if(endorsements == "both"){
+			data4 = data1.filter(function(d){return d.RATING1_MOM1_rating > 3 && d.RATING2_MOM1_rating > 3})
+		}
+		if(endorsements == "one"){
+			data4 = data1.filter(function(d){return (d.RATING1_MOM1_rating > 3 && d.RATING2_MOM1_rating < 3) || (d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating > 3)})
+		}
+		if(endorsements == "one_both"){
+			data4 = data1.filter(function(d){return d.RATING1_MOM1_rating > 3 || d.RATING2_MOM1_rating > 3})
+		}
+		if(endorsements =="none"){
+			data4 = [];
 		}
 		console.log(data1, data2, data3)
-		data4 = data1.concat(data2);
-		data = data3.concat(data4);
-		// data = data.reverse();
-	}
+		data_1_2 = data1.concat(data2);
+		data_1_2_3 = data3.concat(data_1_2);
+		data = data4.concat(data_1_2_3)
+		function onlyUnique(value, index, self) { 
+    		return self.indexOf(value) === index;
+		}
+		console.log(people_status)
+;	}
 	return data;
 }
 // add reactions to comments view, spatial view and signature view

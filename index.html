@@ -28,24 +28,32 @@
 </div>
 
 <div class="people-filters">
-	<option id="all" value="all">Everyone</option>
-	<div class="filters" id=people-filter-1>
+	<div class="filters">
+		<h1>Everyone</h1>
+		<option id="everyone" value="all">All</option>
+		<option id="everyone" value="string">String Only</option>
+		<option id="everyone" value="pianist">Pianist Only</option>
+	</div>
+	<div class="filters">
 		<h1>Performers</h1>
 		<option  style="background-color:#D8A693;color:white;" id="performer" value="both">Both</option>
-		<option id="performer" value="pianist">Pianist Only</option>
 		<option id="performer" value="cellist">Cellist Only</option>
+		<option id="performer" value="pianist">Pianist Only</option>
 	</div>
-	<div class="filters" id=people-filter-1>
+	<div class="filters">
 		<h1>Listeners</h1>
 		<option style="background-color:#D8A693;color:white;" id="audience" value="all">All</option>
+		<option id="audience" value="prepared">Prepared to Play</option>
 		<option id="audience" value="heard">Heard Only</option>
 		<option id="audience" value="played">Played Only</option>
+		<option id="audience" value="none">Played Only</option>
 	</div>
-	<div class="filters" id=people-filter-1>
-		<h1>Prepared</h1>
-		<option style="background-color:#D8A693;color:white;" id="backup" value="both">Both</option>
-		<option id="backup" value="pianist">Pianist Only</option>
-		<option id="backup" value="cellist">Cellist Only</option>
+	<div class="filters">
+		<h1>Endorsements</h1>
+		<option style="background-color:#D8A693;color:white;" id="endorsements" value="both">Both</option>
+		<option id="endorsements" value="one">One Rater</option>
+		<option id="endorsements" value="one_both">One or Both Raters</option>
+		<option id="endorsements" value="none">Neither Rater</option>
 	</div>
 </div>
 	<input id="ref" value="10"></input>
