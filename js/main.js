@@ -10,7 +10,7 @@ var watch = "same";
 var time_option;
 var zoom_option;
 var card_pos = "down";
-var people_status = [{everyone: 'all', performer: "both", audience: "all", endorsements: "both"}];
+var people_status = [{everyone: 'all', performer: "both", audience: "all", endorsements: "one_both"}];
 var everyone = people_status[0]['everyone']
 var performer = people_status[0]['performer'];
 var audience = people_status[0]['audience'];
@@ -338,6 +338,16 @@ function getPeopleStatus() {
 					this.style.color="white";
 				}
 			}
+			if(type=='everyone' && name == 'all'){
+				type_family2 = document.querySelectorAll('#performer')
+				type_family2.forEach(function(item){
+					item.style.backgroundColor=''
+					item.style.color='black'
+				})
+				target = document.querySelectorAll('#performer')[0]
+				target.style.backgroundColor="rgb(216, 166, 147)"
+				target.style.color="white"
+			}
 			if(type=='everyone' && name != 'all'){
 				var index;
 				people_status[0]['performer']=name;
@@ -369,7 +379,7 @@ function getPeopleStyles() {
 	audience = people_status[0]['audience'];
 	endorsements = people_status[0]['endorsements'];
 	console.log(everyone, performer, audience, endorsements)
-	if(everyone == "all" && performer == "both" && audience == "all" && endorsements =="both"){
+	if(everyone == "all"){
 		console.log('everyone')
 		all_selection.style.backgroundColor = "rgb(216, 166, 147)";
 		all_selection.style.color = "white"
@@ -450,68 +460,71 @@ function justListening(length){
 }
 
 function updateData(data){
-	all = document.querySelector('[value=all]');
-	console.log(all)
-	test = all.style.backgroundColor;
-	if(test == "rgb(216, 166, 147)"){
-		data = data;
-	} else {
-		if(everyone == 'string'){
-			data1 = data.filter(function(d){ return d.role2.match(/string/i) || d.role2.match(/cellist/,"i") 
+		all = document.querySelector('[value=all]');
+		test = all.style.backgroundColor;
+		if(test == "rgb(216, 166, 147)"){
+			data1 = data
+		}
+		if(everyone === 'string'){
+			data1 = data.filter(function(d){ return d.role2.match(/string/i) || d.role2.match(/cellist/i) 
 			})
 		}
-		if (everyone == 'pianist'){
-			data1 = data.filter(function(d){ return d.role2.match(/pianist/i) || d.role2.match(/piano/,"i")
+		if (everyone === 'pianist'){
+			data1 = data.filter(function(d){ return d.role2.match(/pianist/i) || d.role2.match(/piano/i)
 			})
 		}
-		if(performer != "both" && performer!= "none"){
-			data2 = data1.filter(function(d){return d.role == "Performing " + performer})
+		if(performer === "both"){
+			data2 = data1.filter(function(d){return d.role2.match(/performing\spianist/i) || d.role2.match(/performing\scellist/i)})
 		}
-		if(performer == "none"){
+		if(performer === 'string'){
+			data2 = data1.filter(function(d){return d.role2.match(/performing\scellist/i)})
+		}
+		if(performer === 'pianist'){
+			data2 = data1.filter(function(d){return d.role2.match(/performing\spianist/i)})
+		}
+		if(performer === "none"){
 			data2 = [];
 		}
-		if(performer == "both"){
-			data2 = data1.filter(function(d){return d.role == "Performing pianist" || d.role == "Performing cellist"})
+		if(audience === "all"){
+			data3 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
 		}
-		if(audience == "all"){
-			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
+		if(audience === "prepared"){
+			data1 = data1.filter(function(d){return d.role2.match(/prepared/i)})
+			data3=[]
 		}
-		if(audience == "prepared"){
-			data3 = data1.filter(function(d){return d.role2.match(/Prepared/)})
+		if(audience === "heard"){
+			data1 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
+			data1 = data1.filter(function(d){return d.heard == "yes"})
+			data3=[]
 		}
-		if(audience == "none"){
+		if(audience === "played"){
+			data1 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
+			data1 = data1.filter(function(d){return d.played == "yes"})
+			data3=[]
+		}
+		if(audience === "none"){
 			data3 = [];
 		}
-		if(audience == "heard"){
-			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
-			data3 = data3.filter(function(d){return d.heard == "yes"})
-		}
-		if(audience == "played"){
-			data3 = data1.filter(function(d){return d.role2.match(/listener/) || d.role2.match(/Prepared/)})
-			data3 = data3.filter(function(d){return d.played == "yes"})
-		}
+
+		data4 = data1.concat(data2);
+		data5 = data3.concat(data4);
+		console.log(data5)
+
 		if(endorsements == "both"){
-			data4 = data1.filter(function(d){return d.RATING1_MOM1_rating > 3 && d.RATING2_MOM1_rating > 3})
+			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) >= 3})
 		}
 		if(endorsements == "one"){
-			data4 = data1.filter(function(d){return (d.RATING1_MOM1_rating > 3 && d.RATING2_MOM1_rating < 3) || (d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating > 3)})
+			data6 = data5.filter(function(d){return (parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) < 3) || (parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) >= 3)})
 		}
 		if(endorsements == "one_both"){
-			data4 = data1.filter(function(d){return d.RATING1_MOM1_rating > 3 || d.RATING2_MOM1_rating > 3})
+			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 || parseInt(d.RATING2_MOM1_rating) >= 3})
 		}
 		if(endorsements =="none"){
-			data4 = [];
+			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) < 3})
 		}
-		console.log(data1, data2, data3)
-		data_1_2 = data1.concat(data2);
-		data_1_2_3 = data3.concat(data_1_2);
-		data = data4.concat(data_1_2_3)
-		function onlyUnique(value, index, self) { 
-    		return self.indexOf(value) === index;
-		}
-		console.log(people_status)
-;	}
-	return data;
+	console.log(people_status)
+	console.log(data6)
+	return data6;
 }
 // add reactions to comments view, spatial view and signature view
 function addComments(add) {
