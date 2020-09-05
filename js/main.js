@@ -10,11 +10,12 @@ var watch = "same";
 var time_option;
 var zoom_option;
 var card_pos = "down";
-var people_status = [{everyone: 'all', performer: "both", audience: "all", endorsements: "one_both"}];
-var everyone = people_status[0]['everyone']
+var people_status = [{instrument: 'all', performer: "both", listener: "all", endorsements: "both"}];
+var instrument = people_status[0]['instrument'];
 var performer = people_status[0]['performer'];
-var audience = people_status[0]['audience'];
+var listener = people_status[0]['listener'];
 var endorsements = people_status[0]['endorsements'];
+var all_true;
 //mobile view
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
     page=document.querySelectorAll('.page');
@@ -159,7 +160,7 @@ function getMusic(data) {
 			if(filter.length==1){
 				designByCluster(filter);
 				roll(filter[0]);
-				console.log(time, formatTime(filter[0]['timestamp']))
+				// console.log(time, formatTime(filter[0]['timestamp']))
 			} 
 			if(time==0.00 || time==221.59){
 				stopSpin();
@@ -184,7 +185,7 @@ function designByCluster(data){
 	svg = document.querySelector('svg');
 	target.className = "";
 	label = data[0]['labels'];
-	console.log("cluster" + label);
+	// console.log("cluster" + label);
 	// turn background to cluster label through css class
 	target.classList.add("cluster"+label);
 	// turn svg color through css class
@@ -338,55 +339,21 @@ function getPeopleStatus() {
 					this.style.color="white";
 				}
 			}
-			if(type=='everyone' && name == 'all'){
-				type_family2 = document.querySelectorAll('#performer')
-				type_family2.forEach(function(item){
-					item.style.backgroundColor=''
-					item.style.color='black'
-				})
-				target = document.querySelectorAll('#performer')[0]
-				target.style.backgroundColor="rgb(216, 166, 147)"
-				target.style.color="white"
-			}
-			if(type=='everyone' && name != 'all'){
-				var index;
-				people_status[0]['performer']=name;
-				type_family2 = document.querySelectorAll('#performer')
-				type_family2.forEach(function(item){
-					item.style.backgroundColor=''
-					item.style.color='black'
-				})
-				if(name == 'pianist'){
-					index = 2
-				}else {
-					index=1
-				}
-				target = document.querySelectorAll('#performer')[index]
-				console.log(target)
-				target.style.backgroundColor="rgb(216, 166, 147)"
-				target.style.color="white"
-			}
 			getPeopleStyles();
 			console.log(people_status)
 		}
 	}
 }
 function getPeopleStyles() {
-	all_selection = document.querySelector('[value=all]')
-	console.log(all_selection)
-	everyone = people_status[0]['everyone'];
+	instrument = people_status[0]['instrument'];
 	performer = people_status[0]['performer'];
-	audience = people_status[0]['audience'];
+	listener = people_status[0]['listener'];
 	endorsements = people_status[0]['endorsements'];
-	console.log(everyone, performer, audience, endorsements)
-	if(everyone == "all"){
-		console.log('everyone')
-		all_selection.style.backgroundColor = "rgb(216, 166, 147)";
-		all_selection.style.color = "white"
+	console.log(instrument, performer, listener, endorsements)
+	if(instrument == "all"  && performer == "both" && listener == "all" && endorsements == "both"){
+		all_true=1
 	} else {
-		console.log('not everyone')
-		all_selection.style.backgroundColor = "white";
-		all_selection.style.color = "black";
+		all_true=0
 	}
 }
 // get dataset view: 0= comments; 2=spatial, 3=signature
@@ -460,71 +427,68 @@ function justListening(length){
 }
 
 function updateData(data){
-		all = document.querySelector('[value=all]');
-		test = all.style.backgroundColor;
-		if(test == "rgb(216, 166, 147)"){
-			data1 = data
-		}
-		if(everyone === 'string'){
-			data1 = data.filter(function(d){ return d.role2.match(/string/i) || d.role2.match(/cellist/i) 
-			})
-		}
-		if (everyone === 'pianist'){
-			data1 = data.filter(function(d){ return d.role2.match(/pianist/i) || d.role2.match(/piano/i)
-			})
-		}
-		if(performer === "both"){
-			data2 = data1.filter(function(d){return d.role2.match(/performing\spianist/i) || d.role2.match(/performing\scellist/i)})
-		}
-		if(performer === 'string'){
-			data2 = data1.filter(function(d){return d.role2.match(/performing\scellist/i)})
-		}
-		if(performer === 'pianist'){
-			data2 = data1.filter(function(d){return d.role2.match(/performing\spianist/i)})
-		}
-		if(performer === "none"){
-			data2 = [];
-		}
-		if(audience === "all"){
-			data3 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
-		}
-		if(audience === "prepared"){
-			data1 = data1.filter(function(d){return d.role2.match(/prepared/i)})
-			data3=[]
-		}
-		if(audience === "heard"){
-			data1 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
-			data1 = data1.filter(function(d){return d.heard == "yes"})
-			data3=[]
-		}
-		if(audience === "played"){
-			data1 = data1.filter(function(d){return d.role2.match(/listener/i) || d.role2.match(/prepared/i)})
-			data1 = data1.filter(function(d){return d.played == "yes"})
-			data3=[]
-		}
-		if(audience === "none"){
-			data3 = [];
-		}
+		if(all_true==1){
+			return data
+		} else if (all_true==0) {
+			if(instrument == 'all'){
+				data1 = data
+			}
+			if(instrument == 'string'){
+				data1 = data.filter(function(d){ return d.role2.match(/string/g) || d.role2.match(/cellist/i) 
+				})
+			}
+			if (instrument == 'pianist'){
+				data1 = data.filter(function(d){ return d.role2.match(/pianist/ig)
+				})
+			}
+			if(performer == "both"){
+				data2 = data1.filter(function(d){return (d.role2.match(/performing/ig))
+				})
+			}
+			if(performer == 'cellist'){
+				data2 = data1.filter(function(d){return d.role2.match(/performing\scellist/ig)})
+			}
+			if(performer == 'pianist'){
+				data2 = data1.filter(function(d){return d.role2.match(/performing\spianist/ig)})
+			}
+			if(performer == "none"){
+				data2 = []
+			}
+			if(listener == "all"){
+				data3 = data1.filter(function(d){return d.role2.match(/listener/ig) || d.role2.match(/prepared/ig)})
+			}
+			if(listener == "prepared"){
+				data3 = data1.filter(function(d){return d.role2.match(/prepared/ig)})
+			}
+			if(listener== "heard"){
+				data3 = data1.filter(function(d){return d.role2.match(/listener/ig) || d.role2.match(/prepared/ig)})
+				data3 = data3.filter(function(d){return d.heard == "yes"})
+			}
+			if(listener == "played"){
+				data3 = data1.filter(function(d){return d.role2.match(/listener/ig) || d.role2.match(/prepared/ig)})
+				data3 = data3.filter(function(d){return d.played == "yes"})
+			}
+			if(listener == "none"){
+				data3 = [];
+			}	
+			console.log(data1, data2, data3)
+			data4 = data2.concat(data3);
+			console.log(data4)
 
-		data4 = data1.concat(data2);
-		data5 = data3.concat(data4);
-		console.log(data5)
-
-		if(endorsements == "both"){
-			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) >= 3})
+			if(endorsements == "both"){
+				data5 = data4.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) >= 3})
+			}
+			if(endorsements == "one"){
+				data5 = data4.filter(function(d){return (parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) < 3) || (parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) >= 3)})
+			}
+			if(endorsements =="none"){
+				data5 = data4.filter(function(d){return parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) < 3})
+			}
+			data6 = data4.concat(data5)
+			console.log(people_status)
+			console.log(data5)
+			return data6;
 		}
-		if(endorsements == "one"){
-			data6 = data5.filter(function(d){return (parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) < 3) || (parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) >= 3)})
-		}
-		if(endorsements == "one_both"){
-			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 || parseInt(d.RATING2_MOM1_rating) >= 3})
-		}
-		if(endorsements =="none"){
-			data6 = data5.filter(function(d){return parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) < 3})
-		}
-	console.log(people_status)
-	console.log(data6)
-	return data6;
 }
 // add reactions to comments view, spatial view and signature view
 function addComments(add) {

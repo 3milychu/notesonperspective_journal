@@ -10,10 +10,12 @@ var watch = "same";
 var time_option;
 var zoom_option;
 var card_pos = "down";
-var people_status = [{performer: "both", audience: "all", backup: "both"}];
+var people_status = [{instrument: 'all', performer: "both", listener: "all", endorsements: "both"}];
+var instrument = people_status[0]['instrument'];
 var performer = people_status[0]['performer'];
-var audience = people_status[0]['audience'];
-var backup = people_status[0]['backup'];
+var audience = people_status[0]['listener'];
+var backup = people_status[0]['endorsements'];
+var all_true;
 //mobile view
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
     page=document.querySelectorAll('.page');
@@ -343,19 +345,15 @@ function getPeopleStatus() {
 	}
 }
 function getPeopleStyles() {
-	all_selection = document.querySelector('#all')
+	instrument = people_status[0]['instrument'];
 	performer = people_status[0]['performer'];
-	audience = people_status[0]['audience'];
-	backup = people_status[0]['backup'];
-	console.log(performer, audience, backup)
-	if(performer == "both" && audience == "all" && backup == "both"){
-		console.log('everyone')
-		all_selection.style.backgroundColor = "#D8A693";
-		all.style.color = "white"
+	listener = people_status[0]['listener'];
+	endorsements = people_status[0]['endorsements'];
+	console.log(instrument, performer, listener, endorsements)
+	if(instrument == "all"  && performer == "both" && listener == "all" && endorsements == "both"){
+		all_true=1
 	} else {
-		console.log('not everyone')
-		all_selection.style.backgroundColor = "white";
-		all.style.color = "black";
+		all_true=0
 	}
 }
 // get dataset view: 0= comments; 2=spatial, 3=signature
@@ -424,12 +422,10 @@ function justListening(length){
 }
 
 function updateData(data){
-	all = document.querySelector('#all');
-	test = all.style.backgroundColor;
-	if(test == "#D8A693"){
+	if(all_true==1){
 		data = data;
 	} else {
-		if(performer != "both" && performer!= "none"){
+		if(instrument != "all"){
 			data1 = data.filter(function(d){return d.role == "Performing " + performer})
 		}
 		if(performer == "none"){
@@ -438,17 +434,17 @@ function updateData(data){
 		if(performer == "both"){
 			data1 = data.filter(function(d){return d.role == "Performing pianist" || d.role == "Performing cellist"})
 		}
-		if(audience == "all"){
+		if(listener== "all"){
 			data2 = data.filter(function(d){return d.role.match(/Class member/)})
 		}
-		if(audience == "none"){
+		if(listener == "none"){
 			data2 = [];
 		}
-		if(audience == "heard"){
+		if(listener == "heard"){
 			data2 = data.filter(function(d){return d.role.match(/Class member/)})
 			data2 = data2.filter(function(d){return d.heard == "yes"})
 		}
-		if(audience == "played"){
+		if(listener == "played"){
 			data2 = data.filter(function(d){return d.role.match(/Class member/)})
 			data2 = data2.filter(function(d){return d.played == "yes"})
 		}
@@ -458,8 +454,14 @@ function updateData(data){
 		if(backup =="none"){
 			data3 = [];
 		}
-		if(backup == "both"){
-			data3 = data.filter(function(d){return d.role == "Non-performing pianist" || d.role == "Non-performing cellist"})
+		if(endorsements == "both"){
+			data3 = data.filter(function(d){return d.RATING1_MOM1_rating + d.RATING2_MOM1_rating >= 6})
+		}
+		if(endorsements == "one"){
+			data3 = data.filter(function(d){return d.RATING1_MOM1_rating >= 3 || d.RATING2_MOM1_rating >= 3})
+		}
+		if(endorsements == "none"){
+			data3 = []
 		}
 		console.log(data1, data2, data3)
 		data4 = data1.concat(data2);
