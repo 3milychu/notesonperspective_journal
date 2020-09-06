@@ -476,18 +476,17 @@ function updateData(data){
 			console.log(data4)
 
 			if(endorsements == "both"){
-				data5 = data4.filter(function(d){return parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) >= 3})
+				data5 = data4.filter(function(d){return d.RATING1_MOM1_rating >= 3 && d.RATING2_MOM1_rating >= 3})
 			}
 			if(endorsements == "one"){
-				data5 = data4.filter(function(d){return (parseInt(d.RATING1_MOM1_rating) >= 3 && parseInt(d.RATING2_MOM1_rating) < 3) || (parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) >= 3)})
+				data5 = data4.filter(function(d){return (d.RATING1_MOM1_rating >= 3 && d.RATING2_MOM1_rating < 3) || (d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating>= 3)})
 			}
 			if(endorsements =="none"){
-				data5 = data4.filter(function(d){return parseInt(d.RATING1_MOM1_rating) < 3 && parseInt(d.RATING2_MOM1_rating) < 3})
+				data5 = data4.filter(function(d){return d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating < 3})
 			}
-			data6 = data4.concat(data5)
 			console.log(people_status)
 			console.log(data5)
-			return data6;
+			return data5
 		}
 }
 // add reactions to comments view, spatial view and signature view
