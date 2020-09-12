@@ -10,7 +10,7 @@ var watch = "same";
 var time_option;
 var zoom_option;
 var card_pos = "down";
-var people_status = [{instrument: 'all', performer: "both", listener: "all", endorsements: "both"}];
+var people_status = [{instrument: 'all', performer: "both", listener: "all", endorsements: "all"}];
 var instrument = people_status[0]['instrument'];
 var performer = people_status[0]['performer'];
 var listener = people_status[0]['listener'];
@@ -350,7 +350,7 @@ function getPeopleStyles() {
 	listener = people_status[0]['listener'];
 	endorsements = people_status[0]['endorsements'];
 	console.log(instrument, performer, listener, endorsements)
-	if(instrument == "all"  && performer == "both" && listener == "all" && endorsements == "both"){
+	if(instrument == "all"  && performer == "both" && listener == "all" && endorsements == "all"){
 		all_true=1
 	} else {
 		all_true=0
@@ -468,21 +468,27 @@ function updateData(data){
 				data3 = data1.filter(function(d){return d.role2.match(/listener/ig) || d.role2.match(/prepared/ig)})
 				data3 = data3.filter(function(d){return d.played == "yes"})
 			}
+			if(listener == "new"){
+				data3 = data1.filter(function(d){return d.role2.match(/listener/ig) || d.role2.match(/prepared/ig)})
+				data3 = data3.filter(function(d){return d.heard == "no"})
+			}	
 			if(listener == "none"){
 				data3 = [];
 			}	
 			console.log(data1, data2, data3)
 			data4 = data2.concat(data3);
 			console.log(data4)
-
+			if(endorsements == "all"){
+				data5 = data4
+			}
 			if(endorsements == "both"){
-				data5 = data4.filter(function(d){return d.RATING1_MOM1_rating >= 3 && d.RATING2_MOM1_rating >= 3})
+				data5 = data4.filter(function(d){return d.rater1_reassigned >= 3 && d.rater2_reassigned >= 3})
 			}
 			if(endorsements == "one"){
-				data5 = data4.filter(function(d){return (d.RATING1_MOM1_rating >= 3 && d.RATING2_MOM1_rating < 3) || (d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating>= 3)})
+				data5 = data4.filter(function(d){return (d.rater1_reassigned >= 3 && d.rater2_reassigned < 3) || (d.rater1_reassigned < 3 && d.rater2_reassigned>= 3)})
 			}
 			if(endorsements =="none"){
-				data5 = data4.filter(function(d){return d.RATING1_MOM1_rating < 3 && d.RATING2_MOM1_rating < 3})
+				data5 = data4.filter(function(d){return d.rater1_reassigned < 3 && d.rater2_reassigned < 3})
 			}
 			console.log(people_status)
 			console.log(data5)
