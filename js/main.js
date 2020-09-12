@@ -300,9 +300,9 @@ function status() {
 		p_options[i].onclick=function() {
 			for(j=0;j<p_options.length;j++){
 				modify = p_options[j].querySelector('.circle-button');
-				modify.style.backgroundColor="#F2F2F2";
-				modify.style.color="black";
-				modify.style.transform="scale(0.7)";
+				modify.style.backgroundColor="#6561a5";
+				modify.style.color="#f2f2f2";
+				// modify.style.transform="scale(0.7)";
 			}
 			// change color
 			target = document.getElementById(this.id);
