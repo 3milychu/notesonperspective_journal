@@ -434,7 +434,7 @@ function updateData(data){
 				data1 = data
 			}
 			if(instrument == 'string'){
-				data1 = data.filter(function(d){ return d.role2.match(/string/g) || d.role2.match(/cellist/i) 
+				data1 = data.filter(function(d){ return d.role2.match(/string/ig) || d.role2.match(/cellist/ig) 
 				})
 			}
 			if (instrument == 'pianist'){
