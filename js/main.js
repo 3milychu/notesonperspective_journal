@@ -120,6 +120,7 @@ play.onclick=function() {
 	audiocontainer.style.backgroundColor="white";
 	
 }
+
 // clear reactions container
 function clear() {
 	console.log("clear")
@@ -132,7 +133,7 @@ function removeStartMessage() {
 		target=document.querySelector('#reactions');
 		start_message = document.querySelector('#start-message')
 		if(start_message!=null){
-			start_message.remove();
+			start_message.style.display='none'
 		}
 		items = target.querySelectorAll('.item')
 		for (k=0;k<items.length;k++){
@@ -430,6 +431,8 @@ function updateData(data){
 		if(all_true==1){
 			return data
 		} else if (all_true==0) {
+			dummies = data.filter(function(d){ return d.MOM1CHAR.match(/dummy/ig)
+				})
 			if(instrument == 'all'){
 				data1 = data
 			}
@@ -491,6 +494,7 @@ function updateData(data){
 				data5 = data4.filter(function(d){return d.rater1_reassigned < 3 && d.rater2_reassigned < 3})
 			}
 			console.log(people_status)
+			data5 = data5.concat(dummies)
 			console.log(data5)
 			return data5
 		}
@@ -1507,11 +1511,12 @@ function onboard() {
 	onboarding = document.querySelector('.onboarding');
 	about = document.querySelector('#about');
 	about.onclick=function() {
-		onboarding.innerHTML="<iframe src='start.html' frameborder=0></iframe><div class='close'>X</div>"
-		onboarding.style.display="block";
-		close = onboarding.querySelector('.close');
-		close.onclick=function() {
-			onboarding.style.display="none";
-		}
+		location.refresh()
+		// onboarding.innerHTML="<iframe src='start.html' frameborder=0></iframe><div class='close'>X</div>"
+		// onboarding.style.display="block";
+		// close = onboarding.querySelector('.close');
+		// close.onclick=function() {
+		// 	onboarding.style.display="none";
+		// }
 	}
 }
